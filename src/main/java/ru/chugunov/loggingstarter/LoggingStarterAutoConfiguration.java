@@ -1,4 +1,4 @@
-package ru.chugunov.loggingstartergradle;
+package ru.chugunov.loggingstarter;
 
 public class LoggingStarterAutoConfiguration {
 
