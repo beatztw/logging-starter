@@ -4,17 +4,11 @@ plugins {
 }
 
 group 'ru.chugunov'
-version '1.2-SNAPSHOT'
+version '1.2-RC'
 
 repositories {
     mavenCentral()
     mavenLocal()
-}
-
-compileJava.options.encoding = 'UTF-8'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
 }
 
 def springVersion = '3.2.5'
@@ -23,6 +17,11 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:${springVersion}"
     implementation "org.springframework.boot:spring-boot-starter-aop:${springVersion}"
 
+}
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 test {
