@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "ru.chugunov",
+    "module": "logging-starter",
+    "version": "1.2-RC",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.5.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "logging-starter-1.2-RC.jar",
+          "url": "logging-starter-1.2-RC.jar",
+          "size": 10317,
+          "sha512": "8a26015685cdecc9e2f88576b034d6039d7b8d0c3a76425e1cc358c596b7ba933275e80a9869cc6e6f68338c23ea4c5fcac760a1a5a7564984042641b7683fee",
+          "sha256": "361394b3a8b455a60158b0180b72d04790ab3bd53e9032bb400799869b005d76",
+          "sha1": "a14f6079a723ef066532bbddc0f76726474a131e",
+          "md5": "ee4329ec24d98fe0544ca12492a3488c"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-web",
+          "version": {
+            "requires": "3.2.5"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-aop",
+          "version": {
+            "requires": "3.2.5"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "logging-starter-1.2-RC.jar",
+          "url": "logging-starter-1.2-RC.jar",
+          "size": 10317,
+          "sha512": "8a26015685cdecc9e2f88576b034d6039d7b8d0c3a76425e1cc358c596b7ba933275e80a9869cc6e6f68338c23ea4c5fcac760a1a5a7564984042641b7683fee",
+          "sha256": "361394b3a8b455a60158b0180b72d04790ab3bd53e9032bb400799869b005d76",
+          "sha1": "a14f6079a723ef066532bbddc0f76726474a131e",
+          "md5": "ee4329ec24d98fe0544ca12492a3488c"
+        }
+      ]
+    }
+  ]
+}
