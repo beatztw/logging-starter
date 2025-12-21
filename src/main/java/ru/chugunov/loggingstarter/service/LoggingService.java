@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.chugunov.loggingstarter.enums.RequestDirection;
+import ru.chugunov.loggingstarter.property.FeignLoggingBodyProperty;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
@@ -22,19 +24,22 @@ public class LoggingService {
 
     private static final Logger log = LoggerFactory.getLogger(LoggingService.class);
 
+    @Autowired
+    private FeignLoggingBodyProperty property;
+
     public void logRequest(HttpServletRequest request) {
         String method = request.getMethod();
         String requestURI = request.getRequestURI() + formatQueryString(request);
         String headers = inlineHeaders(request);
 
-        log.info("Запрос: {} {} {} {}", RequestDirection.IN, method, requestURI, headers);
+        log.info("Запрос: {} {} {} {}", RequestDirection.OUT, method, requestURI, headers);
     }
 
     public void logRequestBody(HttpServletRequest request, Object body) {
         String method = request.getMethod();
         String requestURI = request.getRequestURI() + formatQueryString(request);
 
-        log.info("Тело запроса: {} {} {} {}", RequestDirection.IN, method, requestURI, body);
+        log.info("Тело запроса: {} {} {} {}", RequestDirection.OUT, method, requestURI, body);
     }
 
     public void logFeignRequest(Request request) {
@@ -42,39 +47,41 @@ public class LoggingService {
         String requestURI = request.url();
         String headers = formatHeaders(request.headers());
 
-        log.info("Feign-Запрос: {} {} {} {}", RequestDirection.IN, method, requestURI, headers);
-    }
-
-    public void logFeignRequestBody(Request request) {
-        String method = request.httpMethod().name();
-        String requestURI = request.url();
-        String body = new String(request.body(), StandardCharsets.UTF_8);
-
-        log.info("Тело Feign-запроса: {} {} {} {}", RequestDirection.IN, method, requestURI, body);
+        if (property.getLogFeignBody()) {
+            String body = new String(request.body(), StandardCharsets.UTF_8);
+            log.info("Feign-Запрос: {} {} {} {} body={}", RequestDirection.OUT, method, requestURI, headers, body);
+        } else {
+            log.info("Feign-Запрос: {} {} {} {}", RequestDirection.OUT, method, requestURI, headers);
+        }
     }
 
     public void logResponse(HttpServletRequest request, HttpServletResponse response, String responseBody) {
         String method = request.getMethod();
         String requestURI = request.getRequestURI() + formatQueryString(request);
+        String headers = inlineHeaders(request);
 
-        log.info("Ответ: {} {} {} {} body={}", RequestDirection.OUT, method, requestURI, response.getStatus(), responseBody);
+        log.info("Ответ: {} {} {} {} {} body={}", RequestDirection.IN, method, requestURI,
+                response.getStatus(), headers ,responseBody);
     }
 
-    public void logFeignResponse(Response response) {
+    public void logFeignResponse(Response response, String responseBody) {
         String url = response.request().url();
         String method = response.request().httpMethod().name();
+        String headers = inlineHeaders(response);
         int status = response.status();
 
-        log.info("Feign-Ответ: {} {} {} {}", RequestDirection.OUT, method, url, status);
+        if (property.getLogFeignBody()) {
+            log.info("Feign-Ответ: {} {} {} {} {} body={}", RequestDirection.IN, method, url,
+                    status, headers, responseBody);
+        } else {
+            log.info("Feign-Ответ: {} {} {} {} {}", RequestDirection.IN, method, url, status, headers);
+        }
     }
 
-    public void logFeignResponseBody(Response response, String responseBody) {
-        String url = response.request().url();
-        String method = response.request().httpMethod().name();
-        int status = response.status();
+    private String inlineHeaders(Response response) {
+        Map<String, Collection<String>> headersMap = response.headers();
 
-        log.info("Тело Feign-Ответ: {} {} {} {} body={}", RequestDirection.OUT, method, url, status, responseBody);
-
+        return formatHeaders(headersMap);
     }
 
     private String inlineHeaders(HttpServletRequest request) {

@@ -3,14 +3,17 @@ package ru.chugunov.loggingstarter;
 import feign.Logger;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import ru.chugunov.loggingstarter.aspect.LogExecutionAspect;
-import ru.chugunov.loggingstarter.feign.FeignLoggingRequest;
+import ru.chugunov.loggingstarter.feign.FeignLogger;
+import ru.chugunov.loggingstarter.property.FeignLoggingBodyProperty;
 import ru.chugunov.loggingstarter.service.LoggingService;
 import ru.chugunov.loggingstarter.webfilter.WebLoggingFilter;
 import ru.chugunov.loggingstarter.webfilter.WebLoggingRequestBodyAdvice;
 
 @AutoConfiguration
+@EnableConfigurationProperties(FeignLoggingBodyProperty.class)
 @ConditionalOnProperty(prefix = "logging", value = "enabled", havingValue = "true", matchIfMissing = true)
 public class LoggingStarterAutoConfiguration {
 
@@ -39,8 +42,8 @@ public class LoggingStarterAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "logging.web-logging", value = "log-feign-requests", havingValue = "true")
-    public FeignLoggingRequest feignLoggingRequest(){
-        return new FeignLoggingRequest();
+    public FeignLogger feignLoggingRequest(){
+        return new FeignLogger();
     }
 
     @Bean
