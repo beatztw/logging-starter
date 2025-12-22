@@ -3,11 +3,11 @@ package ru.chugunov.loggingstarter.property;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "logging.web-logging")
-public class FeignLoggingBodyProperty {
+public class LoggingProperty {
 
     private final boolean logFeignBody;
 
-    public FeignLoggingBodyProperty(boolean logFeignBody) {
+    public LoggingProperty(boolean logFeignBody) {
         this.logFeignBody = logFeignBody;
     }
 
