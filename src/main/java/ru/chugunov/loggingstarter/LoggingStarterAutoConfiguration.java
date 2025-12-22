@@ -42,7 +42,7 @@ public class LoggingStarterAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "logging.web-logging", value = "log-feign-requests", havingValue = "true")
-    public FeignLogger FeignLogger(){
+    public FeignLogger feignLogger(){
         return new FeignLogger();
     }
 

@@ -71,11 +71,10 @@ public class LoggingService {
         int status = response.status();
 
         if (property.getLogFeignBody()) {
-            log.info("Ответ: {} {} {} {} {} body={}", RequestDirection.OUT, method, url,
-                    status, headers, responseBody);
-        } else {
-            log.info("Ответ: {} {} {} {} {}", RequestDirection.OUT, method, url, status, headers);
+            responseBody = "";
         }
+
+        log.info("Ответ: {} {} {} {} {} body={}", RequestDirection.OUT, method, url, status, headers, responseBody);
     }
 
     private String inlineHeaders(Response response) {
