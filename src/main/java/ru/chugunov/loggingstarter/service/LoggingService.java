@@ -70,7 +70,7 @@ public class LoggingService {
         String headers = inlineHeaders(response);
         int status = response.status();
 
-        if (property.getLogFeignBody()) {
+        if (!property.getLogFeignBody()) {
             responseBody = "";
         }
 
